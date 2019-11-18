@@ -2,7 +2,6 @@ import os
 import json
 import re
 from nltk.stem import PorterStemmer
-from nltk.tokenize import word_tokenize
 from bs4 import BeautifulSoup
 from bs4.element import Comment
 
@@ -30,12 +29,19 @@ def beautiful_print_map(url_map):
         print(key, value)
 
 
+def write_doc_size_to_file(document_id, size):
+    f = open("document_size.txt", "a+")
+    f.write(str(document_id) + ' ' + str(size) + '\n')
+    f.close()
+
+
 def write_map_to_file():
     f = open("token_map.txt", "w")
     for key, value in token_map.items():
         f.write(key + '\t')
         f.write(json.dumps(value) + '\n')
     f.close()
+
 
 def add_token_to_map(token_list: [], document_id: int):
     '''
@@ -69,11 +75,16 @@ for root, dirs, files in os.walk('./DEV'):
                 texts = soup.findAll(text=True)
                 visible_texts = filter(tag_visible, texts)
                 content = " ".join(t.strip() for t in visible_texts)
+                print(content)
+
                 # porter stemming
                 token_list = porter_stem(content)
+                # write_doc_size_to_file(index, len(token_list))
                 # print(token_list)
-                add_token_to_map(token_list, index)
+                # add_token_to_map(token_list, index)
                 index += 1
 
+
+
 # beautiful_print_map(token_map)
-write_map_to_file()
+# write_map_to_file()
