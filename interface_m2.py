@@ -57,19 +57,13 @@ def get_idf_scores(token: str):
 
 
 def get_query():
-    '''
-    prompt user for search terms:
-    :return: [] list of terms
-    '''
-
-    def get_query():
-        ps = PorterStemmer()
-        query_list = []
-        query = input("******************** Qīαη Dμ ********************\n").split()
-        for term in query:
-            ps.stem(term)
-            query_list.append(term)
-        return query_list
+    ps = PorterStemmer()
+    query_list = []
+    query = input("******************** Qīαη Dμ ********************\n").split()
+    for term in query:
+        ps.stem(term)
+        query_list.append(term)
+    return query_list
 
 def get_url_from_doc_id(id: int):
     '''
