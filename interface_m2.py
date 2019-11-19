@@ -1,4 +1,4 @@
-import collections
+from nltk import PorterStemmer
 
 
 def read_file_to_tf_idf_score():
@@ -19,7 +19,9 @@ def read_file_to_tf_idf_score():
             tf_idf_scores.append(scores)
             scores.clear()
             line = f.readline()[:-1]
-            document += 1
+            while "Document:" in line:  # in case empty document
+                line = f.readline()[:-1]
+                document += 1
         temp = line.split(" ")
         term = temp[0]
         score = float(temp[1])
@@ -60,6 +62,14 @@ def get_query():
     :return: [] list of terms
     '''
 
+    def get_query():
+        ps = PorterStemmer()
+        query_list = []
+        query = input("******************** Qīαη Dμ ********************\n").split()
+        for term in query:
+            ps.stem(term)
+            query_list.append(term)
+        return query_list
 
 def get_url_from_doc_id(id: int):
     '''
