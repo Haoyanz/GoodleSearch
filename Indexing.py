@@ -72,13 +72,14 @@ def get_tf_idf():
     for i in range(len(weight)):
         f.write("-----------Document: " + str(i + 1) + " tf - idf" + '-----------\n')
         for j in range(len(word)):
-            f.write(str(word[j]) + ' ' + str(weight[i][j]) + '\n')
+            if weight[i][j] != 0:
+                f.write(str(word[j]) + ' ' + str(weight[i][j]) + '\n')
     f.close()
 
 
 id_url_map = {}
 token_map = {}
-index = 1
+# index = 1
 corpus = []
 for root, dirs, files in os.walk('./DEV'):
     for file in files:
@@ -86,7 +87,7 @@ for root, dirs, files in os.walk('./DEV'):
             with open(os.path.join(root, file), 'r') as json_file:
                 # add url to dictionary
                 json_obj = json.load(json_file)
-                id_url_map[index] = json_obj['url']
+                # id_url_map[index] = json_obj['url']
                 # parse html for content as a whole string
                 soup = BeautifulSoup(json_obj['content'], 'html.parser')
                 texts = soup.findAll(text=True)
@@ -99,8 +100,10 @@ for root, dirs, files in os.walk('./DEV'):
                 # write_doc_size_to_file(index, len(token_list))
                 # print(token_list)
                 # add_token_to_map(token_list, index)
-                index += 1
-
+                # index += 1
+# f = open("url_id.txt", "w")
+# for key, value in id_url_map.items():
+#     f.write(str(key) + " " + value + '\n')
 get_tf_idf()
 # beautiful_print_map(token_map)
 # write_map_to_file()
