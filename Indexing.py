@@ -1,6 +1,8 @@
 import os
 import json
 import re
+from sklearn.feature_extraction.text import TfidfTransformer
+from sklearn.feature_extraction.text import CountVectorizer
 from nltk.stem import PorterStemmer
 from bs4 import BeautifulSoup
 from bs4.element import Comment
@@ -60,9 +62,24 @@ def add_token_to_map(token_list: [], document_id: int):
             token_map[token][document_id] = 1
 
 
+def get_tf_idf():
+    vectorizer = CountVectorizer()
+    transformer = TfidfTransformer()
+    tfidf = transformer.fit_transform(vectorizer.fit_transform(corpus))
+    word = vectorizer.get_feature_names()
+    weight = tfidf.toarray()
+    f = open("tf-dif.txt", "w")
+    for i in range(len(weight)):
+        f.write("-----------Document: " + str(i + 1) + " tf - idf" + '-----------\n')
+        for j in range(len(word)):
+            f.write(str(word[j]) + ' ' + str(weight[i][j]) + '\n')
+    f.close()
+
+
 id_url_map = {}
 token_map = {}
 index = 1
+corpus = []
 for root, dirs, files in os.walk('./DEV'):
     for file in files:
         if file.endswith('.json'):
@@ -75,16 +92,15 @@ for root, dirs, files in os.walk('./DEV'):
                 texts = soup.findAll(text=True)
                 visible_texts = filter(tag_visible, texts)
                 content = " ".join(t.strip() for t in visible_texts)
-                print(content)
+                corpus.append(content)
 
                 # porter stemming
-                token_list = porter_stem(content)
+                # token_list = porter_stem(content)
                 # write_doc_size_to_file(index, len(token_list))
                 # print(token_list)
                 # add_token_to_map(token_list, index)
                 index += 1
 
-
-
+get_tf_idf()
 # beautiful_print_map(token_map)
 # write_map_to_file()
