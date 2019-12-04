@@ -27,6 +27,6 @@ def merge_token_map(file_name_1, file_name_2, output_file_name):
         line2 = file2.readline()
 
 
-merge_token_map("token_map1.txt", "token_map2.txt", "token_map_merged_12")
-merge_token_map("token_map_merged_12", "token_map3.txt", "token_map_fully_merged")
+merge_token_map("token_map1.txt", "token_map2.txt", "token_map_merged_12.txt")
+merge_token_map("token_map_merged_12.txt", "token_map3.txt", "token_map_fully_merged.txt")
 

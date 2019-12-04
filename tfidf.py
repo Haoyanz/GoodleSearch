@@ -1,7 +1,7 @@
 import math
 
 str_to_write = ""
-read_filename = "token_map_fully_merged.txt"
+read_filename = "token_map_fully_merged.txt.txt"
 write_filename = "token_tfidf"
 doc_number = 55393
 doc_size = []
